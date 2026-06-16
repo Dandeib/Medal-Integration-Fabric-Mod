@@ -9,7 +9,7 @@ Automatically clip your Minecraft highlights with [Medal](https://medal.tv)! Thi
 - **Fully client-side** kill detection — install it on your client only, no server mod needed
 - **Two complementary detection methods** for reliability:
   - Vanilla death messages (works on any server that sends them)
-  - Entity death state (melee hits + your own projectiles, works even without death messages)
+  - Generic custom kill lines + action bar (works on public servers with their own kill messages)
 - **Melee *and* ranged** kills (sword, bow, crossbow, trident, …)
 - On-screen feedback: action bar message + sound on every detected kill
 - Saves a clip via Medal's local AutoClip HTTP API
@@ -43,8 +43,8 @@ Automatically clip your Minecraft highlights with [Medal](https://medal.tv)! Thi
 
 The mod detects your kills client-side and asks Medal to save a clip:
 
-1. **Death messages** — it reads vanilla death messages (e.g. *"Steve was slain by you"*), checks whether **you** are the killer (not the victim), and reports a kill. Covers melee and ranged on any server that sends these messages.
-2. **Entity state** — independently, it tracks players you hit in melee ([`AttackEntityCallback`](https://maven.fabricmc.net/docs/fabric-api/net/fabricmc/fabric/api/event/player/AttackEntityCallback.html)) and the projectiles you fire, then watches their health. When a tracked player's health hits `0` (the same signal that drives the death animation), it's counted as your kill. Works even when a server disables death messages.
+1. **Vanilla death messages** — it reads translatable death messages (e.g. *"Steve was slain by you"*), checks whether **you** are the killer (not the victim), and reports a kill. Covers melee and ranged on any server that sends these messages.
+2. **Generic kill lines** — for public servers that use their own custom kill messages, it parses plain chat and action-bar text. It uses the sentence voice to tell *"you killed X"* (kill) apart from *"X killed you"* (death): the killer follows `by` in passive lines and precedes the kill verb in active ones. Works across most public networks even when they don't send vanilla death messages.
 
 Both paths feed a single, debounced handler that shows feedback and fires the Medal event:
 
@@ -59,8 +59,8 @@ Medal then saves a clip of the configured length to your library. Everything run
 ## 🎮 Supported Events
 
 | Event | Trigger | Default Clip Length |
-|---|---|---|
-| `Player Kill` | You kill a player (melee or ranged) | 60 seconds |
+|---|---|---------------------|
+| `Player Kill` | You kill a player (melee or ranged) | 30 seconds           |
 
 ---
 
@@ -86,11 +86,11 @@ Medal settings live as constants in [`MedalClipTrigger.java`](src/client/java/co
 **Does this work on servers?**
 Yes — the mod runs entirely client-side and detects kills locally. You only install it on your own client.
 
-**What if a server hides death messages?**
-The entity-based detection still catches melee and own-projectile kills, so it keeps working.
+**What if a server doesn't send vanilla death messages?**
+The generic detection parses the server's own custom kill messages (chat and action bar), so it keeps working on most public networks. If a server uses an unusual wording or shows kills only as a title, detection may miss it — open an issue with the exact text and it can be added.
 
-**Are ranged kills 100% accurate?**
-The entity-based ranged detection is a proximity heuristic (a projectile of yours vanishing right next to a player = a hit), so rare edge cases are possible. The death-message path covers ranged kills precisely whenever the server sends those messages.
+**Are kills 100% accurate?**
+The generic path is a text heuristic, so unusual kill-message wording can occasionally be missed (or, rarely, mis-detected). The vanilla death-message path is exact whenever the server sends those messages.
 
 **What Minecraft versions are supported?**
 Built for **1.21.11**. Check the [Releases](../../releases) page for other versions.
@@ -111,8 +111,8 @@ The built `.jar` will be in `build/libs/`.
 
 Key classes:
 
-- `KillDetector` — death-message detection
-- `EntityKillTracker` — entity/projectile detection
+- `VanillaKillDetector` — kills from vanilla death messages
+- `CustomKillDetector` — kills from servers' custom kill lines (chat + action bar)
 - `KillNotifier` — shared, debounced kill handler (feedback + Medal trigger)
 - `MedalClipTrigger` — Medal AutoClip HTTP call
 
@@ -122,7 +122,7 @@ Pull requests are welcome!
 
 ## 📄 License
 
-MIT License — see [LICENSE](LICENSE) for details.
+PolyForm Shield License 1.0.0 — see [LICENSE](LICENSE) for details.
 
 ---
 

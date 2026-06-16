@@ -23,8 +23,8 @@ public final class MedalClipTrigger {
 
     private static final String EVENT_ID = "1";
     private static final String EVENT_NAME = "Player Kill";
-    private static final int CLIP_DURATION = 60;
-    private static final int CLIP_DELAY = 5;
+    private static final int CLIP_DURATION = 30;
+    private static final int CLIP_DELAY = 10;
 
     private static final HttpClient HTTP = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(3))
@@ -60,11 +60,11 @@ public final class MedalClipTrigger {
         HTTP.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                 .thenAccept(response ->
                         MedalIntegrationFabric.LOGGER.info(
-                                "[Medal] Clip event sent (kill: {}). Response: {} {}",
+                                "[Medal-Integration] Clip event sent (kill: {}). Response: {} {}",
                                 victim, response.statusCode(), response.body()))
                 .exceptionally(ex -> {
                     MedalIntegrationFabric.LOGGER.error(
-                            "[Medal] Medal API unreachable (is Medal running?). Endpoint: {}",
+                            "[Medal-Integration] Medal API unreachable (is Medal running?). Endpoint: {}",
                             ENDPOINT, ex);
                     return null;
                 });

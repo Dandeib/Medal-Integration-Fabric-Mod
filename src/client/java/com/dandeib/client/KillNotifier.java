@@ -29,7 +29,7 @@ public final class KillNotifier {
 
         MinecraftClient client = MinecraftClient.getInstance();
         client.execute(() -> {
-            MedalIntegrationFabric.LOGGER.info("[Medal] Kill ({}): {}", source, victim);
+            MedalIntegrationFabric.LOGGER.info("[Medal-Integration] Kill ({}): {}", source, victim);
 
             if (client.player != null) {
                 client.player.sendMessage(
