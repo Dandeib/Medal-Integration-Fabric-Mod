@@ -6,7 +6,7 @@ public class MedalIntegrationFabricClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		// Two complementary client-side detectors feeding the same kill sink.
-		KillDetector.register();      // death messages (covers ranged too)
+		KillMessageDetector.register();      // death messages (covers ranged too)
 		EntityKillTracker.register(); // entity death state (melee + own projectiles, chat-independent)
 	}
 }

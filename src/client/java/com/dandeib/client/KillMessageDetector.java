@@ -15,9 +15,9 @@ import java.util.regex.Pattern;
  * sends them). Death messages are translatable text with a "death." key; argument 0
  * is always the victim, later arguments are the killer.
  */
-public final class KillDetector {
+public final class KillMessageDetector {
 
-    private KillDetector() {}
+    private KillMessageDetector() {}
 
     public static void register() {
         ClientReceiveMessageEvents.GAME.register((message, overlay) -> handleMessage(message));

@@ -1,7 +1,7 @@
 {
 	"schemaVersion": 1,
 	"id": "medal-integration-fabric",
-	"version": "${version}",
+	"version": "${version}-alpha",
 	"name": "Medal Integration",
 	"description": "Client-side mod that detects your player kills (melee and ranged) and automatically saves a clip via Medal's AutoClip API.",
 	"authors": [
