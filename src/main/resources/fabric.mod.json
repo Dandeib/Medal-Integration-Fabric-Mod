@@ -2,16 +2,17 @@
 	"schemaVersion": 1,
 	"id": "medal-integration-fabric",
 	"version": "${version}",
-	"name": "Medal Integration Fabric",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"name": "Medal Integration",
+	"description": "Client-side mod that detects your player kills (melee and ranged) and automatically saves a clip via Medal's AutoClip API.",
 	"authors": [
-		"Me!"
+		"Dandeib"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/Dandeib/Medal-Integration-Fabric-Mod",
+		"sources": "https://github.com/Dandeib/Medal-Integration-Fabric-Mod",
+		"issues": "https://github.com/Dandeib/Medal-Integration-Fabric-Mod/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "MIT",
 	"icon": "assets/medal-integration-fabric/icon.png",
 	"environment": "*",
 	"entrypoints": {
