@@ -24,6 +24,7 @@ public final class MedalClipTrigger {
     private static final String EVENT_ID = "1";
     private static final String EVENT_NAME = "Player Kill";
     private static final int CLIP_DURATION = 60;
+    private static final int CLIP_DELAY = 5;
 
     private static final HttpClient HTTP = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(3))
@@ -42,9 +43,10 @@ public final class MedalClipTrigger {
                   "eventName": "%s",
                   "triggerActions": ["SaveClip"],
                   "clipOptions": {
-                    "duration": %d
+                    "duration": %d,
+                    "captureDelayMs": %d
                   }
-                }""".formatted(escape(EVENT_ID), escape(EVENT_NAME), CLIP_DURATION);
+                }""".formatted(escape(EVENT_ID), escape(EVENT_NAME), CLIP_DURATION, CLIP_DELAY);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(ENDPOINT))
