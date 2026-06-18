@@ -22,6 +22,9 @@
 		"client": [
 			"com.dandeib.client.MedalIntegrationFabricClient"
 		],
+		"modmenu": [
+			"com.dandeib.client.ModMenuIntegration"
+		],
 		"fabric-datagen": [
 			"com.dandeib.client.MedalIntegrationFabricDataGenerator"
 		]

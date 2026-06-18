@@ -9,6 +9,8 @@ import net.minecraft.client.network.ClientPlayerEntity;
 public class MedalIntegrationFabricClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
+		ModConfig.load();
+
 		// Try vanilla death messages first, then fall back to servers' custom kill lines.
 		ClientReceiveMessageEvents.GAME.register((message, overlay) -> {
 			ClientPlayerEntity player = MinecraftClient.getInstance().player;

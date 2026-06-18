@@ -14,8 +14,6 @@ import java.time.Duration;
  */
 public final class MedalClipTrigger {
 
-    private static final boolean ENABLED = true;
-
     private static final String ENDPOINT = "http://localhost:12665/api/v1/event/invoke";
 
     private static final String PUBLIC_KEY = "pub_ynzhVRczaSIQJHueavujpqU827hguMHU";
@@ -23,8 +21,6 @@ public final class MedalClipTrigger {
 
     private static final String EVENT_ID = "1";
     private static final String EVENT_NAME = "Player Kill";
-    private static final int CLIP_DURATION = 30;
-    private static final int CLIP_DELAY = 10;
 
     private static final HttpClient HTTP = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(3))
@@ -33,7 +29,8 @@ public final class MedalClipTrigger {
     private MedalClipTrigger() {}
 
     public static void onKill(String victim) {
-        if (!ENABLED) {
+        ModConfig cfg = ModConfig.get();
+        if (!cfg.enabled) {
             return;
         }
 
@@ -46,7 +43,7 @@ public final class MedalClipTrigger {
                     "duration": %d,
                     "captureDelayMs": %d
                   }
-                }""".formatted(escape(EVENT_ID), escape(EVENT_NAME), CLIP_DURATION, CLIP_DELAY);
+                }""".formatted(escape(EVENT_ID), escape(EVENT_NAME), cfg.clipDuration, cfg.clipDelayMs);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(ENDPOINT))
